@@ -13,7 +13,7 @@ const RootLayout = () => {
    
 
         
-<SafeAreaView className="bg-primary h-full">
+<SafeAreaView className="bg-primary h-full ">
   <ScrollView contentContainerStyle={{height: '100%'}}>
     <View className='w-full items-center  h-full px-4'>
 <Image 
