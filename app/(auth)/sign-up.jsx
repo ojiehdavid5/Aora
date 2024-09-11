@@ -27,7 +27,8 @@ const SignUp= () => {
       router.replace('/home');
 
 
-    } catch (error) {
+    } 
+    catch (error) {
       Alert.alert('Error',error.message)
       
     }
