@@ -6,7 +6,7 @@ import {images} from '../../constants'
 
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import {createUser} from '../../lib/appwrite'
+import {createUser, signIn} from '../../lib/appwrite'
 
 const SignIn= () => {
   const [form,setForm]=useState({
@@ -14,8 +14,29 @@ const SignIn= () => {
     password:''
   })
   const [isSubmitting,setIsSubmitting]=useState(false);
-  const Submit =()=>{
-    createUser();
+  const Submit =async()=>{
+
+    if( !form.email || !form.password){
+      Alert.alert('Error' ,'Please fill in all the fields')
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await signIn(form.email, form.password);
+      router.replace('/home');
+
+
+    } 
+    catch (error) {
+      Alert.alert('Error',error.message)
+      
+    }
+    finally{
+      setIsSubmitting(false);
+
+
+    }
 
   }
   return (
