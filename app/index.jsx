@@ -4,10 +4,15 @@ import {Slot,Link} from "expo-router"
 import { images}   from "../constants/";
 import CustomButton from "../components/CustomButton"
 import {Redirect ,router} from 'expo-router';
+import { useGlobalContext } from '../context/GlobalProvider'
 
 
 
 const RootLayout = () => {
+
+  const {isLoading,isLoggedIn}=useGlobalContext();
+  if(!isLoading && isLoggedIn) return <Redirect href='/home'/>
+
   return (
 
    
