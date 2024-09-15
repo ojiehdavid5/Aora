@@ -3,6 +3,11 @@ import React from 'react'
 
 const Trending = ({posts}) => {
   return (
+    <FlatList
+    data={posts}
+    keyExtractor={(item)=>item.$id}
+    
+    />
 
   )
 }
