@@ -1,12 +1,19 @@
-import { View, Text,SafeAreaView,FlatList,Image } from 'react-native'
-import React from 'react'
+import { View, Text,SafeAreaView,FlatList,Image,RefreshControl } from 'react-native'
+import React,{useState} from 'react'
 import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
-import { RefreshControl } from 'react-native-gesture-handler'
+// import { RefreshControl } from 'react-native-gesture-handler'
 
 const Home = () => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
+
+
+
+
+
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh=async()=>{
     setRefreshing(true);
@@ -66,7 +73,7 @@ const Home = () => {
 
       )}
 
-      // refreshControl={<RefreshControl/>}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
       
       />
       <Text> Home</Text>
