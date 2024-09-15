@@ -7,6 +7,7 @@ import EmptyState from '../../components/EmptyState'
 import { RefreshControl } from 'react-native-gesture-handler'
 
 const Home = () => {
+  const [refreshing, setRefreshing] = useState(false);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
@@ -60,7 +61,7 @@ const Home = () => {
 
       )}
 
-      refreshControl={<RefreshControl/>}
+      // refreshControl={<RefreshControl/>}
       
       />
       <Text> Home</Text>
