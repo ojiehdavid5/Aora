@@ -41,7 +41,7 @@ const Home = () => {
 
           </Text>
 
-          <Trending  posts={[{id:1},{id:2},{id:3},{id:1},{id:1}]}/>
+          <Trending  posts={[{id:1},{id:2},{id:3},{id:2},{id:7}]}/>
 
         </View>
           
