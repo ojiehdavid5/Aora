@@ -10,6 +10,7 @@ const Trending = ({posts}) => {
         <Text className='text-5xl text-white'>{item.id}</Text>
 
     )}
+    horizontal
     
     />
 

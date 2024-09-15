@@ -3,12 +3,14 @@ import React from 'react'
 import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
+import EmptyState from '../../components/EmptyState'
 
 const Home = () => {
   return (
-    <SafeAreaView className='bg-primary'>
+    <SafeAreaView className='bg-primary h-full'>
       <FlatList
       data={[{id:1},{id:2},{id:3}]}
+      // data={[]}
       keyExtractor={(item)=>item.$id}
       renderItem={({item})=>(
         <Text className='text-4xl'>{item.id}</Text>
@@ -46,6 +48,15 @@ const Home = () => {
         </View>
           
         </View>
+      )}
+
+      ListEmptyComponent={()=>(
+        <EmptyState
+        title='No Videos  Found'
+        subtitle='No videos created yet'
+        
+        />
+
       )}
       
       />
