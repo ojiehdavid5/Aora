@@ -9,7 +9,9 @@ import { RefreshControl } from 'react-native-gesture-handler'
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh=async()=>{
-    
+    setRefreshing(true);
+    setRefreshing(false);
+
   }
   return (
     <SafeAreaView className='bg-primary h-full'>
