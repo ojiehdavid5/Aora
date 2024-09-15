@@ -27,6 +27,15 @@ secureTextEntry={title==='Password' && !showPassword}
    resizeMode='contain'
    />
 
+
+
+
+
+
+
+
+
+
  </TouchableOpacity>
 
 )}
