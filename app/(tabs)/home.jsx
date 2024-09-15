@@ -2,6 +2,7 @@ import { View, Text,SafeAreaView,FlatList,Image } from 'react-native'
 import React from 'react'
 import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
+import Trending from '../../components/Trending'
 
 const Home = () => {
   return (
@@ -39,6 +40,8 @@ const Home = () => {
             Lastest videos
 
           </Text>
+
+          <Trending  posts={[{id:1},{id:2},{id:3},{id:1},{id:1}]}/>
 
         </View>
           
