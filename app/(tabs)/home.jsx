@@ -1,6 +1,7 @@
 import { View, Text,SafeAreaView,FlatList,Image,RefreshControl, Alert } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import {images} from '../../constants'
+import {icons} from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
@@ -44,6 +45,13 @@ const Home = () => {
         <View className='mt-1.5'>
           <Image
           source={images.logoSmall}
+          className='w-9 h-10'
+          resizeMode='contain'
+          
+          />
+
+          <Image
+          source={icons.search}
           className='w-9 h-10'
           resizeMode='contain'
           
