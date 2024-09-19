@@ -5,6 +5,9 @@ import * as Animatable from 'react-native-animatable'
 import { icons } from '../constants'
 
 
+import { Video,ResizeMode } from 'expo-av'
+
+
 const zoomOut={
   0:{
     scale:1
@@ -24,15 +27,32 @@ const zoomIn={
 
 const TrendingItem=({activeItem,item})=>{
   const [play, setPlay] = useState(false);
+
   return(
     <Animatable.View
     className='mr-5'
-    animation={activeItem.$id ===item.$id ? zoomIn :zoomOut}
+    animation={activeItem ===item.$id ? zoomIn :zoomOut}
     duration={500}
     >
 
       {play ? (
-        <Text>Playing</Text>
+        // <Text>Playing</Text>
+<Video
+source={{uri: item.videos}}
+className='w-52 h-72  rounded-[35px] mt-3 bg-white/10'
+resizeMode={ResizeMode.CONTAIN}
+shouldPlay
+useNativeControls
+onPlaybackStatusUpdate={(status)=>{
+  if(status.didJustFinish){
+    setPlay(false)
+  }
+
+}}
+
+/>
+
+
       ):(<TouchableOpacity className='relative justify-center items-center'
         activeOpacity={0.7}
         onPress={()=>setPlay(true)}
@@ -66,6 +86,10 @@ const Trending = ({posts}) => {
   const [activeItem, setActiveItem] = useState(posts[0])
 
   const viewableItemChanged=({viewableItems})=>{
+    if(viewableItems.length>0){
+      setActiveItem(viewableItems[0].key)
+    }
+
 
   }
   return (
@@ -77,6 +101,12 @@ const Trending = ({posts}) => {
       // <Text className='text-white'>{item.}</Text>
 
     )}
+
+    onViewableItemsChanged={viewableItemChanged}
+    viewabilityConfig={{
+      itemVisiblePercentThreshold:70
+    }}
+    contentOffset={{x: 170}}
     horizontal
     
     />
