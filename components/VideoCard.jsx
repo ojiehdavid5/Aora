@@ -40,7 +40,21 @@ resizeMode='cover'
         </View>
 
 {play ? (
-    <Text className='text-white text-xl'>Playing</Text>
+    <Video
+    source={{uri: item.videos}}
+    className='w-52 h-72  rounded-[35px] mt-3 bg-white/10'
+    resizeMode={ResizeMode.CONTAIN}
+    shouldPlay
+    useNativeControls
+    onPlaybackStatusUpdate={(status)=>{
+      if(status.didJustFinish){
+        setPlay(false)
+      }
+    
+    }}
+    
+    />
+    
 ):(
     <TouchableOpacity 
     activeOpacity={0.7}
