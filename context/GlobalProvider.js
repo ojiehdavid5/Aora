@@ -45,7 +45,11 @@ export const useGlobalContext=()=>useContext(GlobalContext)
         }}
         
         >
+            
+
             {children}
+
+
         </GlobalContext.Provider>
     )
 }
