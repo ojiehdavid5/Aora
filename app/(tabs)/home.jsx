@@ -9,9 +9,10 @@ import {getAllPosts,getLatestPosts} from '../../lib/appwrite'
 // import { RefreshControl } from 'react-native-gesture-handler'
 import useAppwrite from '../../lib/useAppwrite'
 import VideoCard from '../../components/VideoCard'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Home = () => {
- 
+ const {user,setUser ,isLoggedIn}=useGlobalContext()
   const {data:posts,refetch}=useAppwrite(getAllPosts)
   const {data:latestPosts}=useAppwrite(getLatestPosts)
 
@@ -40,7 +41,7 @@ const Home = () => {
         <View className='justify-between items-start flex-row mb-6'>
         <View>
         <Text className='font-pmedium text-sm text-gray-100'>Welcome back</Text>
-        <Text className='text-2xl  font-psemibold text-white'>CHUKS</Text>
+        <Text className='text-2xl  font-psemibold text-white'>{user?.username}</Text>
         </View>
         <View className='mt-1.5'>
           <Image
@@ -50,12 +51,7 @@ const Home = () => {
           
           />
 
-          <Image
-          source={icons.search}
-          className='w-9 h-10'
-          resizeMode='contain'
-          
-          />
+         
 
 
         </View>
