@@ -1,9 +1,17 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, Image } from 'react-native'
+import React,{useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FormField from '../../components/FormField'
+import { TouchableOpacity } from 'react-native'
+import { Video ,ResizeMode} from 'expo-av'
+import { icons } from '../../constants'
+import CustomButton from '../../components/CustomButton'
 
 const Create = () => {
+
+  const submit=()=>{
+
+  }
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title:'',
@@ -17,8 +25,81 @@ const Create = () => {
       <Text className='text-2xl text-white font-psemibold'> Upload videos</Text>
       <FormField
       title='Video Title '
+      value={form.title}
+      placeholder='Give your video a catchy title'
+      handleChangeText={(e)=>setForm({...form,title:e})}
+      otherStyles='mt-10'
       
       />
+      <View className='mt-7 space-y-2 '>
+        <Text className='text-base text-gray-100 font-pmedium'>Upload Videos</Text>
+        <TouchableOpacity>
+          {form.video ? (  
+            
+            <Video 
+            source={{uri:form.video.uri}}
+            className='w-full h-64  rounded-2xl'
+            useNativeControls
+            resizeMode={ResizeMode.CONTAIN}
+            isLooping
+
+            
+            
+            />
+
+) :(<View className='w-full h-40 px-4 bg-black-100 rounded-2xl justify-center items-center'>
+<View className='w-14 h-14 border border-dashed border-secondary-200 justify-center items-center'>
+<Image 
+className='w-1/2  h-1/2'
+resizeMode='contain'
+source={icons.upload}/>
+</View>
+</View>)
+        }
+        </TouchableOpacity>
+
+      </View>
+
+      <View className='mt-7 space-y-2'>
+      <Text className='text-base text-gray-100 font-pmedium'>ThumbNail image</Text>
+
+      <TouchableOpacity>
+          {form.thumbnail ? (  
+            
+            <Image 
+            className='w-full h-64  rounded-2xl '
+            source={{uri:form.thumbnail.uri}}/>
+
+) :(<View className='w-full h-16 px-4 bg-black-100 rounded-2xl justify-center items-center flex-row  space-x-4 border-2 border-black-200'>
+<Image 
+className='w-5  h-5 '
+resizeMode='contain'
+source={icons.upload}/>
+
+<Text className='text-sm text-gray-100  font-pmedium'>Choose a File </Text>
+</View>)
+        }
+        </TouchableOpacity>
+
+      </View>
+
+      <FormField
+      title='AI Prompt '
+      value={form.prompt}
+      placeholder='The prompt you used to create this video'
+      handleChangeText={(e)=>setForm({...form,prompt:e})}
+      otherStyles='mt-10'
+      
+      />
+      <CustomButton 
+      
+      title='Submit & Publish'
+      handlePress={submit}
+      containerStyles='mt-7'
+      isLoading={uploading}
+      
+      />
+
 
       </ScrollView>
     </SafeAreaView>
