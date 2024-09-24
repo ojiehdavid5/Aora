@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image ,Alert} from 'react-native'
 import React,{useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FormField from '../../components/FormField'
@@ -6,19 +6,154 @@ import { TouchableOpacity } from 'react-native'
 import { Video ,ResizeMode} from 'expo-av'
 import { icons } from '../../constants'
 import CustomButton from '../../components/CustomButton'
-
+import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
+import { router } from 'expo-router'
 const Create = () => {
-
-  const submit=()=>{
-
-  }
-  const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title:'',
     video:null,
     thumbnail:null,
     prompt:''
   })
+
+  const [uploading, setUploading] = useState(false);
+
+
+  const submit=()=>{
+    if(!form.prompt||!form.title ||!form.video ||!form.thumbnail ){
+     return  Alert.alert('Please fill in all the fields')
+
+
+
+
+
+    }
+    setUploading(true);
+    try {
+
+      Alert.alert('Post uploaded succesfully');
+      router.replace('/home')
+      
+    } catch (error) {
+      Alert.alert('error',error.message);
+      
+    }finally{
+      setForm({
+
+        title:'',
+        video:null,
+        thumbnail:null,
+        prompt:''
+    
+
+      })
+      setUploading(false);
+    }
+
+
+  }
+  
+
+
+  // const openPicker=async(selectType)=>{
+
+  //   try {
+  //     const result = await DocumentPicker.getDocumentAsync({
+  //         type: selectType === 'image'
+  //             ? ['image/png', 'image/jpeg']
+  //             : ['video/mp4', 'video/gif']
+  //     });
+  
+  //     // Handle the result here
+  //     console.log(result);
+  // } catch (error) {
+  //     console.error("Error picking document:", error);
+  // }
+
+
+
+  //   if(!result.canceled){
+
+  //     if(selectType==='image'){
+  //       setForm({...form, thumbnail:result.assets[0]})
+  //   }
+  //     if(selectType==='video'){
+  //       setForm({...form, video:result.assets[0]})
+  //   }
+  // }else{
+
+  //   setTimeout(()=>{
+  //     Alert.alert('Document picked',JSON.stringify(result,null,2))
+
+  //   },100)
+  // }}
+
+
+  const requestPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+    }
+};
+
+
+
+const openPickerImages = async () => {
+  await requestPermission();
+
+  let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Allows both images and videos
+      allowsEditing: true, // Optional, allows user to edit media
+      quality: 1, // Quality of the selected media
+  });
+
+  if (!result.canceled) {
+      console.log(result.assets[0]);
+           setForm({...form, thumbnail:result.assets[0]})
+         
+      
+      
+      // Handle the selected media
+  }else{
+
+      setTimeout(()=>{
+      Alert.alert('Document picked',JSON.stringify(result,null,2))
+  
+      },100)
+    }
+
+};
+
+const openPickerVideos = async () => {
+  await requestPermission();
+
+  let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos, // Allows both images and videos
+      allowsEditing: true, // Optional, allows user to edit media
+      quality: 1, // Quality of the selected media
+  });
+
+  if (!result.canceled) {
+      console.log(result.assets[0]); 
+      
+      console.log(result.assets[0]);
+      setForm({...form, video:result.assets[0]})
+    
+ // Handle the selected media
+  }else{
+
+    setTimeout(()=>{
+    Alert.alert('Document picked',JSON.stringify(result,null,2))
+
+    },100)
+  }
+};
+
+
+
+
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className='px-4 my-6'>
@@ -33,7 +168,10 @@ const Create = () => {
       />
       <View className='mt-7 space-y-2 '>
         <Text className='text-base text-gray-100 font-pmedium'>Upload Videos</Text>
-        <TouchableOpacity>
+        <TouchableOpacity 
+        onPress={openPickerVideos}
+        
+        >
           {form.video ? (  
             
             <Video 
@@ -63,7 +201,7 @@ source={icons.upload}/>
       <View className='mt-7 space-y-2'>
       <Text className='text-base text-gray-100 font-pmedium'>ThumbNail image</Text>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={openPickerImages}>
           {form.thumbnail ? (  
             
             <Image 
@@ -104,6 +242,7 @@ source={icons.upload}/>
       </ScrollView>
     </SafeAreaView>
   )
+
 }
 
 export default Create
