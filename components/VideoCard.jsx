@@ -1,9 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { icons } from '../constants'
+import {Video,ResizeMode} from 'expo-av'
 
-const VideoCard = ({video:{title,thumbnail,video,creator:{username,avatar}}}) => {
+const VideoCard = ({video:{title,thumbnail,videos,creator:{username,avatar}},posts}) => {
     const [play, setPlay] = useState(false)
+    // console.log({uri:videos});
 
   return (
     <View className='flex-col items-center px-4 mb-14'>
@@ -40,27 +42,29 @@ resizeMode='cover'
         </View>
 
 {play ? (
-    <Video
-    source={{uri: item.videos}}
-    className='w-52 h-72  rounded-[35px] mt-3 bg-white/10'
-    resizeMode={ResizeMode.CONTAIN}
-    shouldPlay
-    useNativeControls
-    onPlaybackStatusUpdate={(status)=>{
-      if(status.didJustFinish){
-        setPlay(false)
-      }
-    
-    }}
-    
-    />
-    
+  <Video
+  source={{ uri: videos }}
+  className="w-full h-60 rounded-xl mt-3"
+  resizeMode={ResizeMode.CONTAIN}
+  useNativeControls
+  shouldPlay
+  onPlaybackStatusUpdate={(status) => {
+    console.log(status); // Log playback status
+    if (status.didJustFinish) {
+      setPlay(false);
+    }
+  }}
+  onError={(error) => {
+    console.error('Video Error:', error); // Log any errors
+  }}
+/>
+   
 ):(
     <TouchableOpacity 
     activeOpacity={0.7}
     onPress={()=>setPlay(true)}
     className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'>
-        <Image source={{uri: thumbnail}} 
+        <Image source={{uri:thumbnail}} 
         className='w-full h-full mt-3 rounded-xl'
         resizeMode='cover'
         
