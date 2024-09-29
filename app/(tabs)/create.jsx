@@ -9,7 +9,10 @@ import CustomButton from '../../components/CustomButton'
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router'
+import{createVideo} from '../../lib/appwrite'
+import  {useGlobalContext} from '../../context/GlobalProvider'
 const Create = () => {
+  const {user}=useGlobalContext()
   const [form, setForm] = useState({
     title:'',
     video:null,
@@ -20,7 +23,7 @@ const Create = () => {
   const [uploading, setUploading] = useState(false);
 
 
-  const submit=()=>{
+  const submit=async()=>{
     if(!form.prompt||!form.title ||!form.video ||!form.thumbnail ){
      return  Alert.alert('Please fill in all the fields')
 
@@ -31,12 +34,16 @@ const Create = () => {
     }
     setUploading(true);
     try {
+      await createVideo({
+        ...form,userId:user.$id
+      })
 
       Alert.alert('Post uploaded succesfully');
       router.replace('/home')
       
     } catch (error) {
       Alert.alert('error',error.message);
+      console.log(error)
       
     }finally{
       setForm({
@@ -115,13 +122,14 @@ const openPickerImages = async () => {
       
       
       // Handle the selected media
-  }else{
+  }
+  // else{
 
-      setTimeout(()=>{
-      Alert.alert('Document picked',JSON.stringify(result,null,2))
+  //     setTimeout(()=>{
+  //     Alert.alert('Document picked',JSON.stringify(result,null,2))
   
-      },100)
-    }
+  //     },100)
+  //   }
 
 };
 
@@ -141,13 +149,14 @@ const openPickerVideos = async () => {
       setForm({...form, video:result.assets[0]})
     
  // Handle the selected media
-  }else{
-
-    setTimeout(()=>{
-    Alert.alert('Document picked',JSON.stringify(result,null,2))
-
-    },100)
   }
+  // else{
+
+  //   setTimeout(()=>{
+  //   Alert.alert('Document picked',JSON.stringify(result,null,2))
+
+  //   },100)
+  // }
 };
 
 
