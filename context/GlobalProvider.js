@@ -19,6 +19,9 @@ export const useGlobalContext=()=>useContext(GlobalContext)
             if(res){
                 setIsLoggedIn(true);
                 setUser(res);
+
+
+
                 console.log(res);
             }else{
                 setIsLoggedIn(false);
