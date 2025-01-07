@@ -21,6 +21,9 @@ const Search = () => {
   console.log(query,posts);
   useEffect(() => {
     refetch();
+    
+    
+    
   
    
   }, [query])
